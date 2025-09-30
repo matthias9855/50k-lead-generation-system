@@ -1,0 +1,3794 @@
+{
+  "name": "Lead Generation System",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "lead-machine-v2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        1184
+      ],
+      "id": "e63915ae-2dd6-4625-bcac-712f77c4d51b",
+      "name": "Webhook",
+      "webhookId": "9926541d-c60c-4d68-978f-264b6c9ccbcd"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f3c4119d-a838-4936-a77e-6c6f7dc6c48b",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "ScrapeApollo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ScrapeApollo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f9916733-3428-4e10-8cb0-4d3d8d2cf21e",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "EnrichApolloProfiles",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "EnrichApolloProfiles"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b2c1dc4-d994-45fe-84eb-85ddcfdf2d29",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "ScrapeLinkedInProfiles",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ScrapeLinkedInProfiles"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7c20f68a-ecfd-40dc-8d47-9bc4a668b8cc",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "EnrichLinkedInProfiles",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "EnrichLinkedInProfiles"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b6c33727-d838-433b-a704-95d4162fc586",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "QualifyLeads",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "QualifyLeads"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -496,
+        1152
+      ],
+      "id": "18f4adf9-17b7-409b-9424-03937b394145",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://google.serper.dev/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $('Builds a Google Query').item.json.Query }}"
+            },
+            {
+              "name": "num",
+              "value": "=20"
+            },
+            {
+              "name": "page",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1792,
+        1008
+      ],
+      "id": "81c2b402-9a40-44cd-9972-eb2ac4f8b9bc",
+      "name": "SerperDev",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PrwV6KB9T7AAh9mP",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ee51694-5646-4d42-bfc9-9a4a316711d2",
+              "name": "Campaign",
+              "value": "={{ $json['Job Title'] }}_{{ $json['Company Type'] }}_{{ $json.Location }}_{{ $json.CompanySize }}_{{ $json.Industry }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        1184
+      ],
+      "id": "d784db00-3341-4dd1-b7db-9b8cf22624da",
+      "name": "Set Campaign Name"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3dfdae07-b47b-4d61-a415-ca28d8c1bc92",
+              "name": "Query",
+              "value": "=site:linkedin.com/in/ {{ $('Get Record From Campaign Table - 1').item.json['Job Title'] }} {{ $('Get Record From Campaign Table - 1').item.json['Company Type'] }} {{ $('Get Record From Campaign Table - 1').item.json.Location }} ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        1184
+      ],
+      "id": "3ca8de43-c834-4eb1-b310-75b2019d7bb6",
+      "name": "Builds a Google Query"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Organic",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2192,
+        1008
+      ],
+      "id": "dd827471-0906-4ca9-a900-b2b6856cd121",
+      "name": "Splits Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b15f05fe-e7d3-4f09-a15a-fe7cdf176e7e",
+              "name": "Organic",
+              "value": "={{ $json.organic }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1984,
+        1008
+      ],
+      "id": "c3deceff-61bb-424b-a48f-8a5b55734bcf",
+      "name": "Map Fields "
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltvNDtBhuTp2cqS",
+          "mode": "list",
+          "cachedResultName": "Google Search Leads",
+          "cachedResultUrl": "https://airtable.com/appoGVv37v1Kafgdg/tbltvNDtBhuTp2cqS"
+        },
+        "id": "={{ $('Webhook').item.json.query.recordId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        1648
+      ],
+      "id": "7f1b9b47-2d13-48e7-af23-e4c2c255f91e",
+      "name": "Get Record From Campaign Table - 3",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblvSmWd0QNJ0ZjiZ",
+          "mode": "list",
+          "cachedResultName": "Google Search Campaigns",
+          "cachedResultUrl": "https://airtable.com/appoGVv37v1Kafgdg/tblvSmWd0QNJ0ZjiZ"
+        },
+        "id": "={{ $('Webhook').item.json.query.recordId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        128,
+        1184
+      ],
+      "id": "1cb886f1-05e3-4e94-b741-ff99d0f43466",
+      "name": "Get Record From Campaign Table - 1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltvNDtBhuTp2cqS",
+          "mode": "list",
+          "cachedResultName": "Google Search Leads",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tbltvNDtBhuTp2cqS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Get Record From Campaign Table - 3').item.json.id }}",
+            "First Name": "={{ $json.firstName }}",
+            "Last Name": "={{ $json.lastName }}",
+            "Headline": "={{ $json.headline }}",
+            "email": "={{ $json.email }}",
+            "Company Name": "={{ $json.companyName }}",
+            "About": "={{ $json.about }}",
+            "experianceDetails": "={{ $json.experianceDetails }}",
+            "companyWebsite": "={{ $json.companyWebsite }}",
+            "Company LinkedIn": "={{ $json.companyLinkedin }}",
+            "Company Size": "={{ $json.companySize }}",
+            "Job Title": "={{ $json.jobTitle }}",
+            "address": "={{ $json.address }}",
+            "Mobile Number": "={{ $json.mobileNumber }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Linkedin Profile Url",
+              "displayName": "Linkedin Profile Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedIn Profile Snippet",
+              "displayName": "LinkedIn Profile Snippet",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "About",
+              "displayName": "About",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "experianceDetails",
+              "displayName": "experianceDetails",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "companyWebsite",
+              "displayName": "companyWebsite",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company LinkedIn",
+              "displayName": "Company LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Google Search Campaigns",
+              "displayName": "Google Search Campaigns",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign Name (from Google Search Campaigns)",
+              "displayName": "Campaign Name (from Google Search Campaigns)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails",
+              "displayName": "Emails",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails 2",
+              "displayName": "Emails 2",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails 3",
+              "displayName": "Emails 3",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "OutreachSequence",
+              "displayName": "OutreachSequence",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedInOutreachSequences",
+              "displayName": "LinkedInOutreachSequences",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        992,
+        1648
+      ],
+      "id": "b196ee37-24d8-4df2-914b-5eecbdac4b8d",
+      "name": "Insert Scraped Leads Into ScrapeLeads Table",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Define the lead_number\nlet lead_number = $('Get Record From Campaign Table - 1').first().json['Number Of Leads'];\n\n// Function to generate the array\nfunction generateIds(lead_number) {\n  const count = Math.ceil(lead_number / 20);\n  const result = [];\n\n  for (let i = 1; i <= count; i++) {\n    result.push({ id: i }); // Only { id: i } -- no extra wrapping\n  }\n\n  return result;\n}\n\n// Call the function\nreturn generateIds(lead_number);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        992
+      ],
+      "id": "1c36a766-4489-445d-9b60-d2e4baa32060",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1552,
+        992
+      ],
+      "id": "61eb0304-59da-441f-82dc-c788e8138ca9",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "28afdacf-5c8e-43dc-ad64-88943c8654da",
+              "leftValue": "={{ $('Get Record From Campaign Table - 1').item.json['Number Of Leads'] }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1088,
+        1184
+      ],
+      "id": "398dd0e9-85c2-45b3-9592-b1674820ba93",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://google.serper.dev/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $('Builds a Google Query').item.json.Query }}"
+            },
+            {
+              "name": "num",
+              "value": "={{ $('Get Record From Campaign Table - 1').item.json.LeadNumber }}"
+            },
+            {
+              "name": "page",
+              "value": "=1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1424,
+        1312
+      ],
+      "id": "9999987e-411a-479c-b1db-6b42017a7c66",
+      "name": "SerperDev1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PrwV6KB9T7AAh9mP",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Organic",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        1312
+      ],
+      "id": "fbbe122f-64f3-4421-8781-c111eef1f08c",
+      "name": "Splits Data1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b15f05fe-e7d3-4f09-a15a-fe7cdf176e7e",
+              "name": "Organic",
+              "value": "={{ $json.organic }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        1312
+      ],
+      "id": "8fd00432-607b-414f-90fa-802e070c79a6",
+      "name": "Map Fields 1"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltvNDtBhuTp2cqS",
+          "mode": "list",
+          "cachedResultName": "Google Search Leads",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tbltvNDtBhuTp2cqS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $json.title }}",
+            "Linkedin Profile Url": "={{ $json.link }}",
+            "LinkedIn Profile Snippet": "={{ $json.snippet }}",
+            "Google Search Campaigns": "={{ [$('Get Record From Campaign Table - 1').item.json['Campaign Name'] ]}}",
+            "ICP Details": "={{ $('ICP').item.json.ICP }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Linkedin Profile Url",
+              "displayName": "Linkedin Profile Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ICP Details",
+              "displayName": "ICP Details",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Profile Snippet",
+              "displayName": "LinkedIn Profile Snippet",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "About",
+              "displayName": "About",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "experianceDetails",
+              "displayName": "experianceDetails",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "companyWebsite",
+              "displayName": "companyWebsite",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company LinkedIn",
+              "displayName": "Company LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Google Search Campaigns",
+              "displayName": "Google Search Campaigns",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign Name (from Google Search Campaigns)",
+              "displayName": "Campaign Name (from Google Search Campaigns)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails",
+              "displayName": "Emails",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails 2",
+              "displayName": "Emails 2",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails 3",
+              "displayName": "Emails 3",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "OutreachSequence",
+              "displayName": "OutreachSequence",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedInOutreachSequences",
+              "displayName": "LinkedInOutreachSequences",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2000,
+        1312
+      ],
+      "id": "31c6e1aa-1f4f-4475-88ae-c25d50926e4a",
+      "name": "Insert LinkedIn Profiles Into Airtable1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblvSmWd0QNJ0ZjiZ",
+          "mode": "list",
+          "cachedResultName": "Google Search Campaigns",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tblvSmWd0QNJ0ZjiZ"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start Campaign": false,
+            "id": "={{ $('Get Record From Campaign Table - 1').item.json.id }}",
+            "Campaign Status": "Scraping Complete"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true
+            },
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Type",
+              "displayName": "Company Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "CompanySize",
+              "displayName": "CompanySize",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Number Of Leads",
+              "displayName": "Number Of Leads",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign Status",
+              "displayName": "Campaign Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Idle",
+                  "value": "Idle"
+                },
+                {
+                  "name": "Scraping Leads",
+                  "value": "Scraping Leads"
+                },
+                {
+                  "name": "Scraping Complete",
+                  "value": "Scraping Complete"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Campaign",
+              "displayName": "Start Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2240,
+        1312
+      ],
+      "id": "4526aadb-d764-49af-8478-fcc93f2cde15",
+      "name": "Update Campaign Action To Idle1",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# LinkedIn Lead Scraping\n",
+        "height": 580,
+        "width": 2920,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        928
+      ],
+      "id": "9f61da07-3aea-46c3-b993-e210fee9ee45",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0d426fd9-7a19-4795-9f49-6fe9e0ed83a9",
+              "name": "firstName",
+              "value": "={{ $json.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "6f1f07e0-1e5d-44f3-b26c-5be9225fa15e",
+              "name": "lastName",
+              "value": "={{ $json.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "fe5a7623-3300-4b5c-b874-509235677b2a",
+              "name": "headline",
+              "value": "={{ $json.headline }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d40744-85d6-4772-b44c-0491ed96a476",
+              "name": "address",
+              "value": "={{ $json.addressWithCountry }}",
+              "type": "string"
+            },
+            {
+              "id": "2b0f3348-39a5-499a-bacd-1d3a3b15de2c",
+              "name": "about",
+              "value": "={{ $json.about }}",
+              "type": "string"
+            },
+            {
+              "id": "274ca5b5-7ec9-4a4f-824d-2a068d3cf29a",
+              "name": "experianceDetails",
+              "value": "={{ $json.experiences\n    .map(exp => \n      exp.breakdown && exp.subComponents && exp.subComponents.length \n        ? exp.subComponents\n            .map(sub => `${sub.title}, ${exp.title}, ${sub.caption}`)\n            .join(\"\\n\")\n        : `${exp.title}, ${exp.subtitle}, ${exp.caption}`\n    )\n    .join(\"\\n\")\n}}",
+              "type": "string"
+            },
+            {
+              "id": "211377cb-9083-4258-a251-610ed8f1fb93",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "ec666fac-f5ef-4ef9-be69-41e559d783f1",
+              "name": "companyName",
+              "value": "={{ $json.companyName }}",
+              "type": "string"
+            },
+            {
+              "id": "38ce1f5c-caa1-4b80-b792-02d9ab16b712",
+              "name": "companyWebsite",
+              "value": "={{ $json.companyWebsite }}",
+              "type": "string"
+            },
+            {
+              "id": "0cf0a484-6990-4a08-9532-ccf586544b92",
+              "name": "companyLinkedin",
+              "value": "={{ $json.companyLinkedin }}",
+              "type": "string"
+            },
+            {
+              "id": "93f3142e-533c-4c56-a2bc-30bf0244a6ce",
+              "name": "companySize",
+              "value": "={{ $json.companySize }}",
+              "type": "string"
+            },
+            {
+              "id": "123fb900-f510-4078-9f1e-7f6c14fe2d24",
+              "name": "jobTitle",
+              "value": "={{ $json.jobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "e90298a4-a383-4d08-a49a-4f6ef001a676",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        1648
+      ],
+      "id": "8be8c0b3-1a85-4863-80ce-2dc87e2dea36",
+      "name": "Manual Mappping"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/dev_fusion~linkedin-profile-scraper/run-sync-get-dataset-items?token=INSERT_API_KEY_HERE",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"profileUrls\": [\n        \"{{ $json['Linkedin Profile Url'] }}\"\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        512,
+        1648
+      ],
+      "id": "d7615eb9-860f-4466-8839-55359c3fd8b2",
+      "name": "Apify"
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbleajiG8BaDPypiC",
+          "mode": "list",
+          "cachedResultName": "Aggregated Emails",
+          "cachedResultUrl": "https://airtable.com/appoGVv37v1Kafgdg/tbleajiG8BaDPypiC"
+        },
+        "id": "={{ $('Webhook').item.json.query.recordId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        2112
+      ],
+      "id": "7ccbc1a5-1871-4741-9c12-25ff13643310",
+      "name": "Get Record From Scrape Leads Table2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Target ICP \n{{ $('Get Record From Scrape Leads Table2').item.json.ICP }}\n---\n# Lead Data\nCompany Name: {{ $('Get Record From Scrape Leads Table2').item.json.Company }}\n\nTitle: {{ $('Get Record From Scrape Leads Table2').item.json.Title }}\nLinkedIn Headline: {{ $('Get Record From Scrape Leads Table2').item.json['LinkedIn Headline '] }}\nLinkedIn About: {{ $('Get Record From Scrape Leads Table2').item.json.About }}\nCompany Size: {{ $('Get Record From Scrape Leads Table2').item.json['Company Size'] }}\nRaw Website Content: {{ $json.results[0].raw_content }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# ROLE\nYou are a highly specialized AI Lead Qualification Analyst. Your sole purpose is to meticulously analyze lead data against a defined Ideal Customer Profile (ICP), and assign a numerical qualification score. You are an expert at synthesizing information from various sources (structured data, professional bios, and raw website text) to make an accurate assessment.\n\n# OBJECTIVE\nYour primary goal is to determine how well a given lead fits the target ICP and output a single integer score from 0 to 10 representing that fit. You must adhere strictly to the output format requirements.\n\n# INPUT DATA STRUCTURE\nYou will receive user prompts containing two distinct sections:\n1.  `# Target ICP`: This section defines the ideal customer profile with criteria such as Job Title, Location, Company Type, and Company Size. This is your \"gold standard\" for comparison.\n2.  `# Lead Data`: This section provides comprehensive information about a specific lead, including their professional details from LinkedIn and the raw text content from their company's website.\n\n# CORE ANALYSIS & SCORING PROCESS\nYou must follow this three-step process:\n\n1.  **Deconstruct the Target ICP:** First, thoroughly understand every criterion specified in the `Target ICP` section. This profile represents the perfect lead (a score of 10).\n\n2.  **Synthesize Lead Profile:** Next, meticulously analyze all provided `Lead Data`. Do not just look for keyword matches. Instead, synthesize the information to build a holistic understanding of the lead.\n    *   **LinkedIn Data (Title, Headline, About):** Use this to understand the person's role, seniority, and professional focus.\n    *   **Company Data (Name, Size):** Use this to understand the organization's scale and identity.\n    *   **Raw Website Content:** This is a critical source. Scan this text to understand the company's services, mission, target audience, and overall business model. For example, even if `Company Type` is not explicitly stated in the lead's profile, the website content will reveal if they are a \"Marketing Agency,\" \"SaaS Company,\" etc.\n\n3.  **Compare and Score:** Compare the synthesized lead profile against the `Target ICP` criteria. Use the rubric below to assign your score. Infer where necessary. For example, a \"Founder\" or \"Owner\" title is a perfect match for a \"Founder\" ICP. A company describing branding and campaign services is a \"Marketing Agency.\"\n\n# SCORING RUBRIC (0-10)\nYou must use this scale to determine the final score:\n\n*   **10 (Perfect Fit):** The lead aligns perfectly with *all* primary criteria of the Target ICP (e.g., Job Title, Company Type, Company Size range). The website content and LinkedIn data strongly corroborate this. This is an ideal, high-priority lead.\n\n*   **8-9 (Strong Fit):** The lead aligns with almost all ICP criteria. There may be a very minor deviation in one area (e.g., company size is slightly outside the ideal range, or the job title is a close senior equivalent).\n\n*   **7 (Good Fit):** The lead is a solid match and is worth pursuing. They align with the most important ICP criteria (e.g., correct Company Type and senior Job Title), but may have a notable deviation in another area (e.g., different geography, significantly different company size). This is the benchmark for a qualified, contact-worthy lead that isn't perfect.\n\n*   **5-6 (Moderate Fit):** There is a potential, but not obvious, fit. The lead may only match on one or two key criteria, or the available information is ambiguous but suggests a possible connection. This requires more investigation but isn't a clear \"yes.\"\n\n*   **2-4 (Weak Fit):** The lead shows a significant mismatch with the ICP. They might work in the right industry but in a completely irrelevant role (e.g., an intern instead of a founder), or vice-versa. There is very little overlap.\n\n*   **0-1 (Highly Unqualified):** There is a fundamental and clear mismatch across all or most of the core ICP criteria. The lead is in the wrong industry, has the wrong seniority, and the company offers irrelevant services. Do not contact.\n\n# CRITICAL OUTPUT FORMAT\n- Your response MUST be a single whole number (integer) between 0 and 10.\n- DO NOT include any other words, text, explanations, reasoning, or punctuation.\n- Your entire output MUST be only the number itself.\n\n**Example of correct output:**\n`8`\n\n**Example of incorrect output:**\n`The lead score is 8.`\n\n**Example of incorrect output:**\n`8/10`"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        768,
+        2112
+      ],
+      "id": "cf072a03-94e4-4760-a750-2190c248dd03",
+      "name": "Basic LLM Chain4"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        688,
+        2304
+      ],
+      "id": "0ce879c1-e8ef-4d0a-ab07-2bf4e9e7b7b7",
+      "name": "Google Gemini Chat Model6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eTeYWdmUYJTqamS0",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Lead Qualification\n",
+        "height": 500,
+        "width": 1460,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1984
+      ],
+      "id": "b768d4dd-517b-4a79-af3b-7cd45da5e356",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblVvgNRMtRznd88Z",
+          "mode": "list",
+          "cachedResultName": "Apollo Campaigns",
+          "cachedResultUrl": "https://airtable.com/appoGVv37v1Kafgdg/tblVvgNRMtRznd88Z"
+        },
+        "id": "={{ $('Webhook').item.json.query.recordId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        160,
+        160
+      ],
+      "id": "41feb96d-9639-4006-9b10-660a95eec8cc",
+      "name": "Get Record From Campaign Table - ",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/jljBwyyQakqrL1wae/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "INSERT_API_KEY_HERE"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"url\": \"{{ $json['Apollo Search URL'] }}\",\n    \"totalRecords\": {{ $json['Number Of Leads'] }},\n    \"fileName\": \"Apollo Prospects - Test\"\n  } ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        160
+      ],
+      "id": "a53436e8-1124-4416-8c7c-9513a9f0ff49",
+      "name": "Apollo Scraper"
+    },
+    {
+      "parameters": {
+        "content": "# Apollo Scraper",
+        "height": 440,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f1337bb7-a7a7-4b3b-903d-edcd8c6d1c6a",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblVdIN8fAdfyA0KK",
+          "mode": "list",
+          "cachedResultName": "Apollo Leads",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tblVdIN8fAdfyA0KK"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.name }}",
+            "First Name": "={{ $json.first_name }}",
+            "Last Name": "={{ $json.last_name }}",
+            "Headline": "={{ $json.headline }}",
+            "Title": "={{ $json.title }}",
+            "LinkedIn Profile Url": "={{ $json.linkedin_url }}",
+            "Email": "={{ $json.email }}",
+            "City": "={{ $json.organization_city }}",
+            "Country": "={{ $json.organization_country }}",
+            "Website": "={{ $json.organization_website_url }}",
+            "Company LinkedIn Url": "={{ $json.organization_linkedin_url }}",
+            "Company": "={{ $json.organization_name }}",
+            "Industry": "={{ $json.industry }}",
+            "Apollo Campaigns": "={{ [$('Get Record From Campaign Table - ').item.json['Campaign Name'] ]}}",
+            "ICP Details": "={{ $('Get Record From Campaign Table - ').item.json['ICP Details'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ICP Details",
+              "displayName": "ICP Details",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company LinkedIn Url",
+              "displayName": "Company LinkedIn Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Profile Url",
+              "displayName": "LinkedIn Profile Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Headline ",
+              "displayName": "LinkedIn Headline ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "About",
+              "displayName": "About",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Apollo Campaigns",
+              "displayName": "Apollo Campaigns",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign Name (from Apollo Campaigns)",
+              "displayName": "Campaign Name (from Apollo Campaigns)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        624,
+        160
+      ],
+      "id": "b675b681-91f0-4571-a06a-4a1c324ee01f",
+      "name": "Insert LinkedIn Profiles Into Airtable2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appoGVv37v1Kafgdg",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Lead Machine v2",
+          "cachedResultUrl": "https://airtable.com/appoGVv37v1Kafgdg"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblVvgNRMtRznd88Z",
+          "mode": "list",
+          "cachedResultName": "Apollo Campaigns",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tblVvgNRMtRznd88Z"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Webhook').item.json.query.recordId }}",
+            "Campaign Status": "Scraping Complete",
+            "Start Campaign": false,
+            "Campaign Name": "={{ $('Get Record From Campaign Table - ').item.json['Campaign Name'] }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true
+            },
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Apollo Search URL",
+              "displayName": "Apollo Search URL",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Number Of Leads",
+              "displayName": "Number Of Leads",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Start Campaign",
+              "displayName": "Start Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign Status",
+              "displayName": "Campaign Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Idle",
+                  "value": "Idle"
+                },
+                {
+                  "name": "Scraping Leads",
+                  "value": "Scraping Leads"
+                },
+                {
+                  "name": "Scraping Complete",
+                  "value": "Scraping Complete"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Apollo Leads",
+              "displayName": "Apollo Leads",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        864,
+        160
+      ],
+      "id": "4aa903be-8d31-4b5d-8fff-e121f8230c45",
+      "name": "Update Campaign Action To Idle2",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltvNDtBhuTp2cqS",
+          "mode": "list",
+          "cachedResultName": "Google Search Leads",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tbltvNDtBhuTp2cqS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $json.title }}",
+            "Linkedin Profile Url": "={{ $json.link }}",
+            "LinkedIn Profile Snippet": "={{ $json.snippet }}",
+            "Google Search Campaigns": "={{ [$('Get Record From Campaign Table - 1').item.json['Campaign Name']] }}",
+            "ICP Details": "={{ $('ICP').item.json.ICP }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Linkedin Profile Url",
+              "displayName": "Linkedin Profile Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ICP Details",
+              "displayName": "ICP Details",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Profile Snippet",
+              "displayName": "LinkedIn Profile Snippet",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "About",
+              "displayName": "About",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "experianceDetails",
+              "displayName": "experianceDetails",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "companyWebsite",
+              "displayName": "companyWebsite",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company LinkedIn",
+              "displayName": "Company LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Google Search Campaigns",
+              "displayName": "Google Search Campaigns",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign Name (from Google Search Campaigns)",
+              "displayName": "Campaign Name (from Google Search Campaigns)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails",
+              "displayName": "Emails",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails 2",
+              "displayName": "Emails 2",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Emails 3",
+              "displayName": "Emails 3",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "OutreachSequence",
+              "displayName": "OutreachSequence",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedInOutreachSequences",
+              "displayName": "LinkedInOutreachSequences",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2384,
+        1008
+      ],
+      "id": "0a41177b-3a91-4269-a3bc-3ec32b4f94ed",
+      "name": "Insert LinkedIn Profiles Into Airtable3",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblvSmWd0QNJ0ZjiZ",
+          "mode": "list",
+          "cachedResultName": "Google Search Campaigns",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tblvSmWd0QNJ0ZjiZ"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start Campaign": false,
+            "id": "={{ $('Get Record From Campaign Table - 1').item.json.id }}",
+            "Campaign Status": "Scraping Complete"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true
+            },
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Type",
+              "displayName": "Company Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "CompanySize",
+              "displayName": "CompanySize",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Number Of Leads",
+              "displayName": "Number Of Leads",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign Status",
+              "displayName": "Campaign Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Idle",
+                  "value": "Idle"
+                },
+                {
+                  "name": "Scraping Leads",
+                  "value": "Scraping Leads"
+                },
+                {
+                  "name": "Scraping Complete",
+                  "value": "Scraping Complete"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Campaign",
+              "displayName": "Start Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2624,
+        1008
+      ],
+      "id": "9cec5aed-cb29-4a96-a751-4b055fa50bba",
+      "name": "Update Campaign Action To Idle3",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblVdIN8fAdfyA0KK",
+          "mode": "list",
+          "cachedResultName": "Apollo Leads",
+          "cachedResultUrl": "https://airtable.com/appoGVv37v1Kafgdg/tblVdIN8fAdfyA0KK"
+        },
+        "id": "={{ $('Webhook').item.json.query.recordId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        192,
+        592
+      ],
+      "id": "da2d35ab-530a-47c3-be44-62b1ed7cd622",
+      "name": "Get Record From Campaign Table - 4",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblVdIN8fAdfyA0KK",
+          "mode": "list",
+          "cachedResultName": "Apollo Leads",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tblVdIN8fAdfyA0KK"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Get Record From Campaign Table - 4').item.json.id }}",
+            "About": "={{ $json.about }}",
+            "Experience": "={{ $json.experianceDetails }}",
+            "LinkedIn Headline ": "={{ $json.headline }}",
+            "Mobile Number": "={{ $json.mobileNumber }}",
+            "Company Size": "={{ $json.companySize }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company LinkedIn Url",
+              "displayName": "Company LinkedIn Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedIn Profile Url",
+              "displayName": "LinkedIn Profile Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedIn Headline ",
+              "displayName": "LinkedIn Headline ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "About",
+              "displayName": "About",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Apollo Campaigns",
+              "displayName": "Apollo Campaigns",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign Name (from Apollo Campaigns)",
+              "displayName": "Campaign Name (from Apollo Campaigns)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        912,
+        592
+      ],
+      "id": "4d5fee0c-fd07-44ea-a589-01d8a481277d",
+      "name": "Insert Scraped Leads Into ScrapeLeads Table1",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Apollo Lead Enrichment\n",
+        "height": 440,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        464
+      ],
+      "id": "644d9d8e-364e-48b3-a857-4862129cc21f",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0d426fd9-7a19-4795-9f49-6fe9e0ed83a9",
+              "name": "firstName",
+              "value": "={{ $json.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "6f1f07e0-1e5d-44f3-b26c-5be9225fa15e",
+              "name": "lastName",
+              "value": "={{ $json.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "fe5a7623-3300-4b5c-b874-509235677b2a",
+              "name": "headline",
+              "value": "={{ $json.headline }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d40744-85d6-4772-b44c-0491ed96a476",
+              "name": "address",
+              "value": "={{ $json.addressWithCountry }}",
+              "type": "string"
+            },
+            {
+              "id": "2b0f3348-39a5-499a-bacd-1d3a3b15de2c",
+              "name": "about",
+              "value": "={{ $json.about }}",
+              "type": "string"
+            },
+            {
+              "id": "274ca5b5-7ec9-4a4f-824d-2a068d3cf29a",
+              "name": "experianceDetails",
+              "value": "={{ $json.experiences\n    .map(exp => \n      exp.breakdown && exp.subComponents && exp.subComponents.length \n        ? exp.subComponents\n            .map(sub => `${sub.title}, ${exp.title}, ${sub.caption}`)\n            .join(\"\\n\")\n        : `${exp.title}, ${exp.subtitle}, ${exp.caption}`\n    )\n    .join(\"\\n\")\n}}",
+              "type": "string"
+            },
+            {
+              "id": "211377cb-9083-4258-a251-610ed8f1fb93",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "ec666fac-f5ef-4ef9-be69-41e559d783f1",
+              "name": "companyName",
+              "value": "={{ $json.companyName }}",
+              "type": "string"
+            },
+            {
+              "id": "38ce1f5c-caa1-4b80-b792-02d9ab16b712",
+              "name": "companyWebsite",
+              "value": "={{ $json.companyWebsite }}",
+              "type": "string"
+            },
+            {
+              "id": "0cf0a484-6990-4a08-9532-ccf586544b92",
+              "name": "companyLinkedin",
+              "value": "={{ $json.companyLinkedin }}",
+              "type": "string"
+            },
+            {
+              "id": "93f3142e-533c-4c56-a2bc-30bf0244a6ce",
+              "name": "companySize",
+              "value": "={{ $json.companySize }}",
+              "type": "string"
+            },
+            {
+              "id": "123fb900-f510-4078-9f1e-7f6c14fe2d24",
+              "name": "jobTitle",
+              "value": "={{ $json.jobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "e90298a4-a383-4d08-a49a-4f6ef001a676",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        592
+      ],
+      "id": "aebd6f18-16d3-4e0a-ab06-99312def4cdb",
+      "name": "Manual Mappping1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/dev_fusion~linkedin-profile-scraper/run-sync-get-dataset-items?token=INSERT_API_KEY_HERE",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"profileUrls\": [\n        \"{{ $json['LinkedIn Profile Url'] }}\"\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        592
+      ],
+      "id": "a5b3df8b-bbba-4e8b-9b3b-d87074c1c7e1",
+      "name": "Apify1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46b82b89-cc3b-4bd8-8ea4-137ae1df40a3",
+              "name": "ICP",
+              "value": "=Job Title: {{ $('Get Record From Campaign Table - 1').item.json['Job Title'] }}\nLocation: {{ $('Get Record From Campaign Table - 1').item.json.Location }}\nCompany Type: {{ $('Get Record From Campaign Table - 1').item.json['Company Type'] }}\nCompany Size: {{ $('Get Record From Campaign Table - 1').item.json.CompanySize }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        1184
+      ],
+      "id": "f5ab5b2a-0c7b-441b-b638-4c2354ba2b60",
+      "name": "ICP"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/extract",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer INSERT_API_KEY_HERE"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "urls",
+              "value": "={{ $json.Website }}"
+            },
+            {
+              "name": "include_images",
+              "value": "false"
+            },
+            {
+              "name": "extract_depth",
+              "value": "basic"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        512,
+        2112
+      ],
+      "id": "426c7767-2b96-413f-a0a1-f2388b6815ac",
+      "name": "Tavily Extract"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appSmNBlWNAmBc32L",
+          "mode": "list",
+          "cachedResultName": "Lead Generation Machine v2 (Copy)",
+          "cachedResultUrl": "https://airtable.com/appSmNBlWNAmBc32L"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbleajiG8BaDPypiC",
+          "mode": "list",
+          "cachedResultName": "Aggregated Emails",
+          "cachedResultUrl": "https://airtable.com/app22zxVKdDZhXtVf/tbleajiG8BaDPypiC"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Get Record From Scrape Leads Table2').item.json.id }}",
+            "Qualification Score": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Qualification Score",
+              "displayName": "Qualification Score",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company LinkedIn Url",
+              "displayName": "Company LinkedIn Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedIn Profile Url",
+              "displayName": "LinkedIn Profile Url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "LinkedIn Headline ",
+              "displayName": "LinkedIn Headline ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "About",
+              "displayName": "About",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Apollo Campaigns",
+              "displayName": "Apollo Campaigns",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign Name (from Apollo Campaigns)",
+              "displayName": "Campaign Name (from Apollo Campaigns)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1200,
+        2112
+      ],
+      "id": "20c8df8c-2abd-4845-9837-d8437f2c541d",
+      "name": "Update Qualification Score",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jKTvNlCvZO95Lxnd",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# LinkedIn Lead Enrichment\n",
+        "height": 440,
+        "width": 1460,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1520
+      ],
+      "id": "de535462-7910-4a97-88d0-6a8dc4f80979",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get Record From Campaign Table - ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Record From Campaign Table - 4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Record From Campaign Table - 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Record From Campaign Table - 3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Record From Scrape Leads Table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerperDev": {
+      "main": [
+        [
+          {
+            "node": "Map Fields ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Campaign Name": {
+      "main": [
+        [
+          {
+            "node": "ICP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Builds a Google Query": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Splits Data": {
+      "main": [
+        [
+          {
+            "node": "Insert LinkedIn Profiles Into Airtable3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Fields ": {
+      "main": [
+        [
+          {
+            "node": "Splits Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record From Campaign Table - 3": {
+      "main": [
+        [
+          {
+            "node": "Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record From Campaign Table - 1": {
+      "main": [
+        [
+          {
+            "node": "Set Campaign Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "SerperDev",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SerperDev1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerperDev1": {
+      "main": [
+        [
+          {
+            "node": "Map Fields 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Splits Data1": {
+      "main": [
+        [
+          {
+            "node": "Insert LinkedIn Profiles Into Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Fields 1": {
+      "main": [
+        [
+          {
+            "node": "Splits Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert LinkedIn Profiles Into Airtable1": {
+      "main": [
+        [
+          {
+            "node": "Update Campaign Action To Idle1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Mappping": {
+      "main": [
+        [
+          {
+            "node": "Insert Scraped Leads Into ScrapeLeads Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apify": {
+      "main": [
+        [
+          {
+            "node": "Manual Mappping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record From Scrape Leads Table2": {
+      "main": [
+        [
+          {
+            "node": "Tavily Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain4": {
+      "main": [
+        [
+          {
+            "node": "Update Qualification Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record From Campaign Table - ": {
+      "main": [
+        [
+          {
+            "node": "Apollo Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo Scraper": {
+      "main": [
+        [
+          {
+            "node": "Insert LinkedIn Profiles Into Airtable2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert LinkedIn Profiles Into Airtable2": {
+      "main": [
+        [
+          {
+            "node": "Update Campaign Action To Idle2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert LinkedIn Profiles Into Airtable3": {
+      "main": [
+        [
+          {
+            "node": "Update Campaign Action To Idle3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Campaign Action To Idle3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record From Campaign Table - 4": {
+      "main": [
+        [
+          {
+            "node": "Apify1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Mappping1": {
+      "main": [
+        [
+          {
+            "node": "Insert Scraped Leads Into ScrapeLeads Table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apify1": {
+      "main": [
+        [
+          {
+            "node": "Manual Mappping1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ICP": {
+      "main": [
+        [
+          {
+            "node": "Builds a Google Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily Extract": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4faf2124-388f-457e-80ad-8c973915c3a7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f825ed080c0f1ba8a812af8bd5da22b9cd0a6f1e2e29508bd8e7306c7d8671a5"
+  },
+  "id": "Z3c8cUA4DE04a0CP",
+  "tags": []
+}
