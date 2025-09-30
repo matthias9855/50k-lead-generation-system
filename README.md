@@ -326,6 +326,28 @@ This system automates everything in **hours**, processing thousands of leads wit
 - ✅ Google Gemini API Key
 
 ---
+## 🔄 Workflow Comparison Table
+
+| Workflow            | Source         | Output          | Use Case                         |
+|---------------------|---------------|-----------------|----------------------------------|
+| Scrape Apollo       | Apollo.io     | Basic leads     | Have Apollo subscription         |
+| Scrape LinkedIn     | Google Search | LinkedIn URLs   | No Apollo, use ICP search        |
+| Enrich Apollo       | Airtable      | Full profiles   | Enrich Apollo leads              |
+| Enrich LinkedIn     | Airtable      | Full profiles   | Enrich Google leads              |
+| Qualify Leads       | Airtable      | AI scores       | Score any leads                  |
+
+
+## 📈 Performance Metrics Table
+
+| Metric            | Value             | Notes                        |
+|-------------------|------------------|------------------------------|
+| Apollo Scraping   | 50 leads/min     | Depends on Apify             |
+| Google Search     | 20 profiles/min  | Serper.dev limit             |
+| Enrichment        | 30 sec/lead      | Apify processing             |
+| Qualification     | 5 sec/lead       | Gemini AI speed              |
+| Daily Capacity    | 50,000+ leads    | With proper setup            |
+| Cost per Lead     | $0.05-0.15       | API costs                    |
+
 
 ## 🚀 Installation
 
