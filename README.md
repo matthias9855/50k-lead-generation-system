@@ -7,7 +7,6 @@
 
 > **Complete B2B lead generation machine combining Apollo.io, Google Search, LinkedIn scraping, and AI-powered qualification into one automated system.**
 
-
 ## 🎬 Demo Video
 
 ### See the Full System in Action
@@ -15,7 +14,7 @@
 <div align="center">
 
   <a href="https://youtu.be/8sg8xINL4iQ">
-    <img src="https://img.youtu.be/8sg8xINL4iQ/maxresdefault.jpg" alt="Facebook Ad Manager - Complete Demo" width="100%">
+    <img src="https://img.youtube.com/vi/8sg8xINL4iQ/maxresdefault.jpg" alt="Facebook Ad Manager - Complete Demo" width="100%">
   </a>
 
   <br><br>
@@ -25,6 +24,7 @@
   </a>
 
 </div>
+
 
 
 
