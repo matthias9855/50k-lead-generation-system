@@ -15,7 +15,7 @@
 <div align="center">
 
   <a href="https://youtu.be/8sg8xINL4iQ">
-    <img src="https://img.https://youtu.be/8sg8xINL4iQ/maxresdefault.jpg" alt="Facebook Ad Manager - Complete Demo" width="100%">
+    <img src="https://img.youtu.be/8sg8xINL4iQ/maxresdefault.jpg" alt="Facebook Ad Manager - Complete Demo" width="100%">
   </a>
 
   <br><br>
